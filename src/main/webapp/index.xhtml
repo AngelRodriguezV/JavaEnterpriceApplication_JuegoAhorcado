@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <link rel="stylesheet" href="#{request.contextPath}/webjars/bootstrap/5.2.3/css/bootstrap.min.css"/>
+    </h:head>
+    <h:body>
+        <div class="container">
+        <f:view>
+            <h:form class="pt-4">
+                <h:outputLabel class="mb-3 h1">JUEGO DEL AHORCADO</h:outputLabel>
+                <br/>
+                <div class="input-group mb-3">
+                    <h:outputText value="NOMBRE" class="input-group-text"/>
+                    <h:inputText value="#{juego.nombre}" required="true" class="form-control"/>
+                </div>
+                <div class="input-group mb-3">
+                    <h:outputText value="INTENTOS" class="input-group-text"/>
+                    <h:inputText value="#{juego.intentos}" required="true" class="form-control"/>
+                </div>
+                <div class="input-group mb-3">
+                    <h:outputLabel class="input-group-text">DIFICULDAD</h:outputLabel>
+                    <h:selectOneMenu value="#{juego.opcionDificultad}" class="form-select">
+                        <c:forEach items="${juego.dificultad}" var="option">
+                            <f:selectItem itemValue="#{option}" itemLabel="#{option}"/>
+                        </c:forEach>
+                    </h:selectOneMenu>
+                </div>
+                <h:commandButton value="Continuar" action="jugar" actionListener="#{juego.palabraAleatoria()}" class="mb-3 btn btn-primary"/>
+            </h:form>
+        </f:view>
+        </div>
+        <script src="#{request.contextPath}/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+    </h:body>
+</html>

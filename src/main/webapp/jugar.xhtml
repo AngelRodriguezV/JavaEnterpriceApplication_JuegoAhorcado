@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <link rel="stylesheet" href="#{request.contextPath}/webjars/bootstrap/5.2.3/css/bootstrap.min.css"/>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <div class="pt-4">
+                <h:outputLabel class="mb-3 h1">JUEGO DEL AHORCADO</h:outputLabel>
+                <br/>
+                <h:outputLabel class="mb-3">JUGADOR: 
+                    <span class="text-primary">${juego.nombre}</span>
+                </h:outputLabel>
+                <br/>
+                <h:outputLabel class="mb-3">INTENTOS: 
+                    <span class="text-primary">${juego.intentos}</span>
+                </h:outputLabel>
+
+                <div class="pagination pagination-sm mb-3">
+                    <c:forEach items="${(!juego.hayIntentos() or juego.asertoPalabra()) ? juego.getPalabraSecreta2() : juego.getPalabraSecreta()}" var="letra">
+                        <h:outputText value="#{letra}" class="page-item page-link disabled"/>
+                    </c:forEach>
+                </div>
+                <f:view>
+                    <h:form class="pagination pagination-sm mb-3">
+                            <c:forEach items="${juego.letrasDisponibles}" var="letra">
+                                <h:commandButton value="#{letra}" action="jugar" actionListener="#{juego.actualizar}" disabled="#{!juego.hayIntentos() or juego.asertoPalabra()}" class="page-item page-link"/>
+                            </c:forEach>
+                    </h:form>
+                </f:view>
+                <div class="pagination pagination-sm mb-3">
+                    <h:outputLabel>LETRAS FALLIDAS: </h:outputLabel>
+                    <c:forEach items="${juego.letrasFallidas}" var="letra">
+                        <h:outputText value="#{letra}" class="page-item page-link disabled"/>
+                    </c:forEach>
+                </div>
+                <div class="pagination pagination-sm mb-3">
+                    <h:outputLabel>LETRAS ACERTADAS: </h:outputLabel>
+                    <c:forEach items="${juego.letrasCorrectas}" var="letra">
+                        <h:outputText value="#{letra}" class="page-item page-link disabled"/>
+                    </c:forEach>
+                </div>
+                <h:outputLabel rendered="#{!juego.hayIntentos() or juego.asertoPalabra()}" class="mb-3">${juego.asertoPalabra() ? 'GANASTES' : 'PERDISTES'}</h:outputLabel>
+                <f:view>    
+                    <h:form>
+                        <h:commandButton value="TERMINAR" action="index" actionListener="#{juego.reiniciar()}" rendered="#{!juego.hayIntentos() or juego.asertoPalabra()}" class="btn btn-primary"/>
+                    </h:form>
+                </f:view>
+            </div>
+        </div>
+        <script src="#{request.contextPath}/webjars/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+    </h:body>
+</html>
